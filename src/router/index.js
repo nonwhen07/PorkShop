@@ -1,21 +1,38 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHashHistory } from 'vue-router'
+//import HomeView from '../views/user/HomeView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
+  // linkActiveClass: 'active',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView
+      component: () => import('../views/user/UserView.vue'),
+      children: [
+        {
+          path: '',
+          name: 'home',
+          component: () => import('../views/user/HomeView.vue')
+        },
+        {
+          path: 'about',
+          name: 'about',
+          component: () => import('../views/user/AboutView.vue')
+        }
+      ]
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/login',
+      name: 'login',
+      component: () => import('../views/user/LoginView.vue')
+    },
+    //admin
+    // {},
+
+    //404
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('../views/user/NotFound.vue')
     }
   ]
 })
