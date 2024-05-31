@@ -1,7 +1,14 @@
 <template>
-  <div class="container-fluid mt-3 position-relative">
+
+  <header>
+    <FrontNavbar is-sign-in="isSignIn" logout="logout"></FrontNavbar>
+  </header>
+  
+  
+  <main class="container-fluid mt-3 position-relative">
     <RouterView></RouterView>
-  </div>
+  </main>
+
   <footer class="footer py-2 bg-light">
     <div class="container text-center">
       <small class="text-black-50 fw-light mb-0">本網站僅供個人作品使用，不提供商業用途</small>
@@ -14,7 +21,7 @@ import axios from 'axios'
 // import emitter from '@/methods/emitter.js'
 
 // import ToastMessages from '@/components/ToastMessages.vue'
-// import FrontNavbar from '@/components/FrontNavbar.vue'
+import FrontNavbar from '@/components/FrontNavbar.vue'
 
 //import productsStore from '@/stores/productsStore.js'
 
@@ -58,7 +65,7 @@ export default {
   // },
   components: {
     // ToastMessages,
-    // FrontNavbar
+    FrontNavbar
   },
   created() {
     //this.check();
