@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 const { VITE_URL, VITE_PATH } = import.meta.env
 
 export default defineStore('productStore', {
-  //data, methods, computed  vue   上下對應
-  //stste, actions, getters  pinia 上下對應
+  //data, methods, computed  vue    Component上下對應
+  //stste, actions, getters  pinia  Store上下對應
   stste: () => ({
     products: [], //對應ProductsView-產品菜單
     pages: {}, //產品菜單-頁碼
@@ -15,20 +15,20 @@ export default defineStore('productStore', {
     getProducts(page = 1) {
       let api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`
 
-      //分類+分業先別匯入
-      if (this.category !== 'all') {
-        api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${this.category}`
-      }
+      //分類+分頁先別匯入
+      // if (this.category !== 'all') {
+      //   api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${this.category}`
+      // }
 
       axios.get(api).then((res) => {
         this.products = res.data.products
-        this.pages = res.data.pagination
+        this.pages = res.data.pagination // 分頁暫時用不到
       })
     }
+  },
+  getters: {
+    sortProducts: ({ products }) => {
+      return products
+    }
   }
-  // getters: {
-  //   sortProducts: ({ products }) => {
-  //     return products
-  //   }
-  // }
 })
