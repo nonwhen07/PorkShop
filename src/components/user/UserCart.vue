@@ -5,10 +5,10 @@
       class="btn btn-outline-danger"
       type="button"
       @click="delAllCart"
-      :disabled="status.delCart === 'delAll'"
+      :disabled="delCart === 'delAll'"
     >
       <span
-        v-if="status.delCart === 'delAll'"
+        v-if="delCart === 'delAll'"
         class="spinner-border spinner-border-sm"
         role="status"
         aria-hidden="true"
@@ -34,15 +34,15 @@
           <button
             type="button"
             class="btn btn-outline-danger btn-sm"
-            @click="delCart(cartitem.id)"
-            :disabled="cartitem.id === status.delCart"
+            @click="delCartItem(cartitem.id)"
+            :disabled="cartitem.id === delCart"
           >
-            <i v-if="cartitem.id !== status.delCart" class="bi bi-x-lg"></i>
+            <i v-if="cartitem.id !== delCart" class="bi bi-x-lg"></i>
             <span
               class="spinner-border spinner-border-sm"
               role="status"
               aria-hidden="true"
-              v-if="cartitem.id === status.delCart"
+              v-if="cartitem.id === delCart"
             ></span>
           </button>
         </td>
@@ -56,7 +56,7 @@
                 type="button"
                 class="btn btn-outline-primary btn-sm"
                 :style="cartitem.qty === 1 ? 'display:none;' : ''"
-                :disabled="cartitem.qty === 1 || cartitem.id === status.cartQtyLoading"
+                :disabled="cartitem.qty === 1 || cartitem.id === cartQtyLoading"
                 @click="cartitem.qty--, cartChangeQty(cartitem, cartitem.qty)"
               >
                 -
@@ -67,14 +67,14 @@
                 class="form-control"
                 style="text-align: center"
                 v-model="cartitem.qty"
-                :disabled="cartitem.id === status.cartQtyLoading"
+                :disabled="cartitem.id === cartQtyLoading"
                 readonly
               />
               <button
                 type="button"
                 class="btn btn-outline-primary btn-sm"
                 @click="cartitem.qty++, cartChangeQty(cartitem, cartitem.qty)"
-                :disabled="cartitem.id === status.cartQtyLoading"
+                :disabled="cartitem.id === cartQtyLoading"
               >
                 +
               </button>
@@ -185,8 +185,7 @@
         <button
           type="submit"
           class="btn btn-danger"
-          :disabled="form.user.id === status.cartQtyLoading"
-        >
+          :disabled="form.user.id === cartQtyLoading">
           送出訂單
         </button>
       </div>
@@ -197,19 +196,22 @@
 <script>
 
 import axios from 'axios'
+import cartStore from '@/stores/cartStore.js'
+import { mapActions, mapState } from 'pinia'
 const { VITE_URL, VITE_PATH } = import.meta.env
 
 export default {
-  props: ['carts', 'delAllCart', 'delCart', 'cartChangeQty', 'getCarts'],
+  //props: ['carts', 'delAllCart', 'delCart', 'cartChangeQty', 'getCarts'],
+  // props: ['delAllCart', 'delCart',],
   data() {
     return {
       userModal: null,
       editCarts: {},
       status: {
         checkProduct: '',
-        addCartLoading: '',
-        cartQtyLoading: '',
-        delCart: ''
+        // addCartLoading: '', 改用cartStore-addCartLoadingI
+        // cartQtyLoading: '', 改用cartStore-cartQtyLoading
+        // delCart: ''
       },
 
       form: {
@@ -228,77 +230,7 @@ export default {
   template: ``,
   //inject: ['emitter'],
   methods: {
-    // cartChangeQty(item, qty = 1) {
-    //   this.status.cartQtyLoading = item.id
-    //   let api = `${VITE_URL}/api/${VITE_PATH}/cart/${item.id}`
-    //   let httpMethod = 'put'
-    //   let order = {
-    //     product_id: item.id,
-    //     qty: qty
-    //   }
-    //   axios[httpMethod](api, { data: order })
-    //     .then((res) => {
-    //       //this.getCarts()
-    //       this.status.cartQtyLoading = ''
-    //       this.$refs.uModal.closeModal()
-
-    //       if (res.data.success) {
-    //         this.getCarts()
-    //         this.emitter.emit('push-message', {
-    //           style: 'success',
-    //           title: '加入購物車成功',
-    //         });
-    //       }
-
-    //     })
-    //     .catch((err) => {
-    //       //alert(err.data.message)
-    //       this.emitter.emit('push-message', {
-    //           style: 'danger',
-    //           title: '加入失敗',
-    //           content: err.data.message.join('、'),
-    //         });
-    //       this.status.cartQtyLoading = ''
-    //     })
-    // },
-    // delCart(itemID) {
-    //   this.status.delCart = itemID
-    //   let api = `${VITE_URL}/api/${VITE_PATH}/cart/${itemID}` //預設新增，再來判斷isNew
-    //   let httpMethod = 'delete'
-    //   axios[httpMethod](api)
-    //     .then((res) => {
-    //       //this.getCarts()
-    //       this.status.delCart = ''
-    //       if (res.data.success) {
-    //         this.getCarts()
-    //         this.emitter.emit('push-message', {
-    //           style: 'success',
-    //           title: '刪除品項成功',
-    //         });
-    //       }
-    //     })
-    // },
-    // delAllCart() {
-    //   this.status.delCart = 'delAll'
-    //   let api = `${VITE_URL}/api/${VITE_PATH}/carts` //預設新增，再來判斷isNew
-    //   let httpMethod = 'delete'
-    //   axios[httpMethod](api)
-    //     .then((res) => {
-    //       this.getCarts()
-    //       this.status.delCart = ''
-    //       if (res.data.success) {
-    //         this.getCarts()
-    //         this.emitter.emit('push-message', {
-    //           style: 'success',
-    //           title: '已清空購物車',
-    //         });
-    //       }
-    //     })
-    //     // .catch((err) => {
-    //     //   alert(err.data.message)
-    //     //   this.status.delCart = ''
-    //     // })
-    // },
+    
     
     sendOrder() {
       this.isLoading = true
@@ -331,8 +263,15 @@ export default {
       const phoneNumber = /^(09)[0-9]{8}$/
       return phoneNumber.test(value) ? true : '電話為必填，須為有效的電話號碼'
     },
+
+    ...mapActions(cartStore, ['getCarts', 'addToCart', 'cartChangeQty','delCartItem','delAllCart']), //改引用pinia-cartStore裡面的action(對應methods) 
   },
   watch: {},
-  mounted() {}
+  mounted() {},
+  computed:{
+    ...mapState(cartStore, ['carts', 'cartslength', 'addCartLoading', 'cartQtyLoading', 'delCart']),
+    
+    
+  }
 }
 </script>
