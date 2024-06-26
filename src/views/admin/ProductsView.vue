@@ -1,14 +1,31 @@
+
+
+
 <template>
-    <h2 class="d-flex justify-content-center">商品列表</h2>
+  <div class="Products">
+    <h2 class="d-flex justify-content-center" style="margin-top: 75px">商品列表</h2>
+  </div>
 </template>
 
+
+
+<style>
+@media (min-width: 1024px) {
+  .about {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
+
 <script>
-// import axios from 'axios';
-// import Loading from 'vue-loading-overlay'
-// import 'vue-loading-overlay/dist/css/index.css'
+// const{VITE_URL, VITE_PATH} = import.meta.env;
 
-// import Pagination from '@/components/PaginationTool.vue';
-// import ProdModal from '@/components/ProductModal.vue';
-// import DelModal from '@/components/DeleteModal.vue';
-
+export default {
+  data() {
+    return {}
+  },
+  mounted() {}
+}
 </script>

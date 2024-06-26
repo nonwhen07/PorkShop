@@ -15,17 +15,23 @@ export default defineStore('productStore', {
     getProducts(page = 1) {
       let api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`
 
-      //分類+分頁先別匯入
+      //分類先別匯入
       // if (this.category !== 'all') {
       //   api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${this.category}`
       // }
 
-      //console.log('productStore-getProducts')
-
-      axios.get(api).then((res) => {
-        this.products = res.data.products
-        this.pages = res.data.pagination // 分頁暫時用不到
-      })
+      axios
+        .get(api)
+        .then((res) => {
+          this.products = res.data.products
+          this.pages = res.data.pagination
+          console.log('pages', this.pages)
+        })
+        .catch((err) => {
+          console.log('err', err)
+          this.products = []
+          this.pages = {}
+        })
     }
   }
   //,

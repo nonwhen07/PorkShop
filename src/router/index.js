@@ -6,6 +6,7 @@ const router = createRouter({
   // linkActiveClass: 'active',
   routes: [
     {
+      // user
       path: '/',
       component: () => import('../views/user/UserView.vue'),
       children: [
@@ -31,8 +32,34 @@ const router = createRouter({
       name: 'login',
       component: () => import('../views/user/LoginView.vue')
     },
-    //admin
-    // {},
+    {
+      // admin
+      path: '/admin',
+      component: () => import('../views/admin/AdminView.vue'),
+      children: [
+        {
+          path: 'products',
+          component: () => import('../views/admin/ProductsView.vue')
+        },
+        // {
+        //   path: 'products/:category',
+        //   component: () => import('../views/admin/ProductsView.vue'),
+        //   props: (route) => {
+        //     return {
+        //       category: route.params.category
+        //     }
+        //   }
+        // },
+        {
+          path: 'orders',
+          component: () => import('../views/admin/OrdersView.vue')
+        },
+        {
+          path: 'coupon',
+          component: () => import('../views/admin/CouponView.vue')
+        }
+      ]
+    },
 
     //404
     {

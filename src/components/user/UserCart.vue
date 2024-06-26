@@ -227,7 +227,6 @@ export default {
 
     }
   },
-  template: ``,
   //inject: ['emitter'],
   methods: {
     

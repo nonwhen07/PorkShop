@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h2 class="d-flex justify-content-center" style="margin-top: 75px;">關於我們</h2>
+    <h2 class="d-flex justify-content-center" style="margin-top: 75px">關於我們</h2>
   </div>
 </template>
 
@@ -19,10 +19,8 @@
 
 export default {
   data() {
-    return {
-    }
+    return {}
   },
-  mounted() {
-  }
+  mounted() {}
 }
 </script>

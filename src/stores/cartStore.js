@@ -8,7 +8,7 @@ export default defineStore('cartStore', {
     // isLoading: false,
 
     carts: [], //購物車菜單
-    cartslength: 0,
+    cartslength: 0, //判定購物車筆數，給外部參考用
     // checkProduct: '',
     addCartLoadingItem: '',
     cartQtyLoading: '', //訂單異動或送出時轉圈圈Loading,

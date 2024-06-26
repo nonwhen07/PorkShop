@@ -1,7 +1,8 @@
 <template>
 
   <header>
-    <FrontNavbar is-sign-in="isSignIn" logout="logout"></FrontNavbar>
+    <!-- <FrontNavbar is-sign-in="isSignIn" logout="logout"></FrontNavbar> -->
+    <FrontNavbar :title="title"></FrontNavbar>
   </header>
   
   
@@ -33,6 +34,7 @@ const { VITE_URL } = import.meta.env
 export default {
   data() {
     return {
+      title: '這是前台',
       isSignIn: false
     }
   },
