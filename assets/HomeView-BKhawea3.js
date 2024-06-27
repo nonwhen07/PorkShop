@@ -1,0 +1,1 @@
+import{c as e,o as t,b as s}from"./index-D2w1bL17.js";const o={class:"about"},a=s("h2",{class:"d-flex justify-content-center",style:{"margin-top":"75px"}},"Home",-1),c=[a],n={data(){return{}},mounted(){}},l=Object.assign(n,{__name:"HomeView",setup(_){return(r,d)=>(t(),e("div",o,c))}});export{l as default};

@@ -1,0 +1,1 @@
+import{_ as e,c as t,o,b as s}from"./index-D2w1bL17.js";const c={data(){return{}},mounted(){}},n={class:"coupon"},a=s("h2",{class:"d-flex justify-content-center",style:{"margin-top":"75px"}},"優惠卷列表",-1),r=[a];function _(d,p,i,u,f,l){return o(),t("div",n,r)}const h=e(c,[["render",_]]);export{h as default};
