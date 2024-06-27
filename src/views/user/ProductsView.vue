@@ -76,6 +76,8 @@
 
       <!-- 分頁工具 pagination -->
       <!-- <Pagination :pages="pages" :update-page="getProducts"></Pagination> -->
+      
+      
 
       <!-- 購物車列表 -->
       <!-- <UserCart v-if="cartslength > 0" :carts="carts" :del-all-cart="delAllCart" :del-cart="delCart"
@@ -106,7 +108,11 @@ import '@/assets/css/_img_hovereffect.css'
 
 import productStore from '@/stores/productStore.js'
 import cartStore from '@/stores/cartStore.js'
+
+import statusStore from '@/stores/statusStore.js'
+
 import { mapActions, mapState } from 'pinia'
+
 
 
 
@@ -138,7 +144,9 @@ export default {
 
       isActive: 'all',
 
-      isLoading: false, //loading狀態
+      // isLoading: false, //loading狀態，改使用statusStore()來管理狀態
+
+
       form: {
         //購物車user
         user: {
@@ -167,10 +175,7 @@ export default {
 
     ...mapActions(productStore, ['getProducts']), //改引用pinia-productStore裡面的action(對應methods)
     // getProducts(page = 1) {
-    //   //console.log('now getproducts...   ')
-
     //   this.isLoading = true
-
     //   let api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`;
     //   //商品分類部分先移除
     //   // if(this.category !== undefined) {
@@ -179,13 +184,11 @@ export default {
     //   // if(this.category !== 'all') {
     //   //   api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}&category=${this.category}`
     //   // }
-
     //   axios.get(api)
     //   .then((res) => {
     //     this.products = res.data.products
     //     // this.pages = res.data.pagination
     //   })
-
     //   setTimeout(() => {
     //     this.isLoading = false //狀態驅動'元件'
     //   }, 1000)
@@ -212,7 +215,6 @@ export default {
     //     this.isLoading = false //狀態驅動'元件'
     //   }, 1000)
     // },
-
     // addToCart(itemId, qty = 1) {
     //   this.status.addCartLoading = itemId
     //   let api = `${VITE_URL}/api/${VITE_PATH}/cart`
@@ -241,9 +243,6 @@ export default {
     // cartChangeQty(item, qty = 1) {
     //   console.log('now cartChangeQty')
     //   this.status.cartQtyLoading = item.id
-
-      
-
     //   let api = `${VITE_URL}/api/${VITE_PATH}/cart/${item.id}`
     //   let httpMethod = 'put'
     //   let order = {
@@ -255,7 +254,6 @@ export default {
     //       //this.getCarts()
     //       this.status.cartQtyLoading = ''
     //       // this.$refs.uModal.closeModal()
-
     //       if (res.data.success) {
     //         this.getCarts()
     //         // this.emitter.emit('push-message', {
@@ -263,7 +261,6 @@ export default {
     //         //   title: '加入購物車成功',
     //         // });
     //       }
-
     //     })
     //     .catch((err) => {
     //       console.log('now cartChangeQty',err)
@@ -276,9 +273,6 @@ export default {
     //       this.status.cartQtyLoading = ''
     //     })
     // },
-
-
-
     // delCart(itemID) {
     //   this.status.delCart = itemID
     //   let api = `${VITE_URL}/api/${VITE_PATH}/cart/${itemID}` //預設新增，再來判斷isNew
@@ -334,21 +328,14 @@ export default {
     
 
     //VueLoading作為'元件'使用方式
-    this.isLoading = true
+    // this.isLoading = true
     //this.getPath() //路由判定使用 //因改用WebHash的動態路由調整的部分，等pinia完成再開啟處理
 
 
     this.getProducts() //改引用pinia-productStore裡面的action(對應methods)
     this.getCarts()
-    //VueLoading作為'元件'使用方式
-    setTimeout(() => {
-      this.isLoading = false //狀態驅動'元件'
-    }, 1000)
-    //VueLoading作為'插件'使用方式
-    // const loader = this.$loading.show(); //方法驅動'插件'
-    // setTimeout(() => {
-    //     loader.hide()
-    // }, 1000);
+    
+    
   },
   components: {
     Loading,
@@ -362,8 +349,7 @@ export default {
   computed:{
     ...mapState(productStore, ['products', 'pages']),
     ...mapState(cartStore, ['carts', 'cartslength', 'addCartLoading', 'cartQtyLoading', 'setIsLoading', 'delCart']),
-    
-    
+    ...mapState(statusStore, ['isLoading']),
   }
 }
 </script>

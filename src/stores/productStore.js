@@ -1,7 +1,11 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
 
+import statusStore from '@/stores/statusStore.js'
+
 const { VITE_URL, VITE_PATH } = import.meta.env
+
+const status = statusStore()
 
 export default defineStore('productStore', {
   //data, methods, computed  vue    Component上下對應
@@ -13,6 +17,9 @@ export default defineStore('productStore', {
   }),
   actions: {
     getProducts(page = 1) {
+      // this.isLoading = true //改使用statusStore()來管理狀態
+      status.isLoading = true
+
       let api = `${VITE_URL}/api/${VITE_PATH}/products?page=${page}`
 
       //分類先別匯入
@@ -25,13 +32,15 @@ export default defineStore('productStore', {
         .then((res) => {
           this.products = res.data.products
           this.pages = res.data.pagination
-          console.log('pages', this.pages)
+          //console.log('pages', this.pages)
         })
-        .catch((err) => {
-          console.log('err', err)
+        .catch(() => {
+          //console.log('err', err)
           this.products = []
           this.pages = {}
         })
+
+      status.isLoading = false
     }
   }
   //,
