@@ -5,8 +5,8 @@
     <FrontNavbar :title="title"></FrontNavbar>
   </header>
   
-  
   <main class="container-fluid mt-3 position-relative">
+    <ToastMessages></ToastMessages>
     <RouterView></RouterView>
   </main>
 
@@ -21,10 +21,10 @@
 import axios from 'axios'
 // import emitter from '@/methods/emitter.js'
 
-// import ToastMessages from '@/components/ToastMessages.vue'
+import ToastMessages from '@/components/ToastMessages.vue'
 import FrontNavbar from '@/components/FrontNavbar.vue'
 
-//import productsStore from '@/stores/productsStore.js'
+
 
 // import '@/assets/_img_hovereffect.css'
 // import '@/assets/css/userview.scss'
@@ -46,13 +46,14 @@ export default {
     logout() {
       const api = `${VITE_URL}/logout`
       axios.post(api).then(() => {
+        
         // emitter.emit('push-message', {
         //   style: 'success',
         //   title: '登出成功'
         // })
         //alert('登出成功');
-        //this.$router.push('/login');
 
+        //this.$router.push('/login');
         //document.cookie = `shopToken=; expires=${new Date()}`;
         const emptytoken = '' //清空shopToken內的植
         document.cookie = `shopToken=${emptytoken}; expires=${new Date()}`
@@ -66,7 +67,7 @@ export default {
   //   }
   // },
   components: {
-    // ToastMessages,
+    ToastMessages,
     FrontNavbar
   },
   created() {

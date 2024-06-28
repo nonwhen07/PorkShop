@@ -197,6 +197,8 @@
 
 import axios from 'axios'
 import cartStore from '@/stores/cartStore.js'
+import statusStore from '@/stores/statusStore.js'
+
 import { mapActions, mapState } from 'pinia'
 const { VITE_URL, VITE_PATH } = import.meta.env
 
@@ -268,9 +270,8 @@ export default {
   watch: {},
   mounted() {},
   computed:{
-    ...mapState(cartStore, ['carts', 'cartslength', 'addCartLoading', 'cartQtyLoading', 'delCart']),
-    
-    
+    ...mapState(cartStore, ['carts', 'cartslength']),
+    ...mapState(statusStore, ['addCartLoading', 'cartQtyLoading', 'delCart']),
   }
 }
 </script>

@@ -12,12 +12,9 @@ export default defineStore('cartStore', {
     // isLoading: false, //改使用statusStore()來管理狀態
 
     carts: [], //購物車菜單
-    cartslength: 0, //判定購物車筆數，給外部參考用
-    // checkProduct: '',
-    addCartLoadingItem: '',
-    cartQtyLoading: '', //訂單異動或送出時轉圈圈Loading,
-    delCart: ''
-    // status: {
+    cartslength: 0 //判定購物車筆數，給外部參考用
+
+    // status: { //改使用statusStore()來管理狀態
     //   checkProduct: '',
     //   addCartLoading: '',
     //   cartQtyLoading: '',
@@ -47,9 +44,8 @@ export default defineStore('cartStore', {
 
     addToCart(itemId, qty = 1) {
       status.isLoading = true
-
-      //this.status.addCartLoading = itemId
-      this.addCartLoading = itemId
+      // this.addCartLoading = itemId //改使用statusStore()來管理狀態
+      status.addCartLoading = itemId
 
       let api = `${VITE_URL}/api/${VITE_PATH}/cart`
       let httpMethod = 'post'
@@ -59,20 +55,22 @@ export default defineStore('cartStore', {
       }
       axios[httpMethod](api, { data: cart })
         .then((res) => {
-          //this.status.addCartLoading = ''
-          this.addCartLoading = ''
+          //this.addCartLoading = '' //改使用statusStore()來管理狀態
+          status.addCartLoading = ''
           // this.$refs.uModal.closeModal()
           if (res.data.success) {
             this.getCarts()
-            // this.emitter.emit('push-message', {
+
+            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
             //   style: 'success',
             //   title: '加入購物車成功',
             // });
+            status.pushMessage({ style: 'success', title: '加入購物車成功' })
           }
         })
         .catch(() => {
-          //this.status.addCartLoading = ''
-          this.addCartLoading = ''
+          //this.addCartLoading = '' //改使用statusStore()來管理狀態
+          status.addCartLoading = ''
           status.isLoading = false
         })
     },
@@ -80,8 +78,8 @@ export default defineStore('cartStore', {
     cartChangeQty(orderItem, qty = 1) {
       status.isLoading = true
 
-      //this.status.cartQtyLoading = item.id
-      this.cartQtyLoading = orderItem.id //根據訂頒編號來disabled
+      //this.cartQtyLoading = orderItem.id //根據訂頒編號來disabled //改使用statusStore()來管理狀態
+      status.cartQtyLoading = orderItem.id
 
       let api = `${VITE_URL}/api/${VITE_PATH}/cart/${orderItem.id}`
       let httpMethod = 'put'
@@ -91,26 +89,34 @@ export default defineStore('cartStore', {
       }
       axios[httpMethod](api, { data: order })
         .then((res) => {
-          //this.status.cartQtyLoading = ''
-          this.cartQtyLoading = ''
+          //this.cartQtyLoading = '' //改使用statusStore()來管理狀態
+          status.cartQtyLoading = ''
           // this.$refs.uModal.closeModal()
 
           if (res.data.success) {
             this.getCarts()
-            // this.emitter.emit('push-message', {
+
+            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
             //   style: 'success',
             //   title: '加入購物車成功',
             // });
+            status.pushMessage({ style: 'success', title: '加入購物車成功' })
           }
         })
-        .catch(() => {
-          // this.emitter.emit('push-message', {
+        .catch((err) => {
+          // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
           //     style: 'danger',
           //     title: '加入失敗',
           //     content: err.data.message.join('、'),
           //   });
-          //this.status.cartQtyLoading = ''
-          this.cartQtyLoading = ''
+          status.pushMessage({
+            style: 'danger',
+            title: '加入失敗',
+            content: err.data.message.join('、')
+          })
+
+          //this.cartQtyLoading = '' //改使用statusStore()來管理狀態
+          status.cartQtyLoading = ''
           status.isLoading = false
         })
     },
@@ -118,20 +124,23 @@ export default defineStore('cartStore', {
     delCartItem(itemID) {
       status.isLoading = true
 
-      // this.status.delCart = itemID
-      this.delCart = itemID
+      //this.delCart = itemID //改使用statusStore()來管理狀態
+      status.delCart = itemID
+
       let api = `${VITE_URL}/api/${VITE_PATH}/cart/${itemID}` //預設新增，再來判斷isNew
       let httpMethod = 'delete'
       axios[httpMethod](api)
         .then((res) => {
-          // this.status.delCart = ''
-          this.delCart = ''
+          // this.delCart = '' //改使用statusStore()來管理狀態
+          status.delCart = ''
           if (res.data.success) {
             this.getCarts()
-            // this.emitter.emit('push-message', {
+
+            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
             //   style: 'success',
             //   title: '刪除品項成功',
             // });
+            status.pushMessage({ style: 'success', title: '刪除品項成功' })
           }
         })
         .catch(() => {
@@ -142,20 +151,24 @@ export default defineStore('cartStore', {
     delAllCart() {
       status.isLoading = true
 
-      // this.status.delCart = 'delAll'
-      this.delCart = 'delAll'
+      //this.delCart = 'delAll' //改使用statusStore()來管理狀態
+      status.delCart = 'delAll'
+
       let api = `${VITE_URL}/api/${VITE_PATH}/carts` //預設新增，再來判斷isNew
       let httpMethod = 'delete'
       axios[httpMethod](api)
         .then((res) => {
-          // this.status.delCart = ''
-          this.delCart = ''
+          //this.delCart = '' //改使用statusStore()來管理狀態
+          status.delCart = ''
+
           if (res.data.success) {
             this.getCarts()
-            // this.emitter.emit('push-message', {
+
+            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
             //   style: 'success',
             //   title: '已清空購物車',
             // });
+            status.pushMessage({ style: 'success', title: '已清空購物車' })
           }
         })
         .catch(() => {
