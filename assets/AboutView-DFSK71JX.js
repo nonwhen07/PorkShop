@@ -1,0 +1,1 @@
+import{_ as t,a as e,o,b as s}from"./index-BzHzv8FH.js";const a={data(){return{}},mounted(){}},c={class:"about"},n=s("h2",{class:"d-flex justify-content-center",style:{"margin-top":"75px"}},"關於我們",-1),r=[n];function _(d,i,p,u,f,l){return o(),e("div",c,r)}const h=t(a,[["render",_]]);export{h as default};
