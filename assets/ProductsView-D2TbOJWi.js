@@ -1,1 +1,0 @@
-import{_ as t,a as e,o as s,b as o}from"./index-BzHzv8FH.js";const c={data(){return{}},mounted(){}},n={class:"Products"},a=o("h2",{class:"d-flex justify-content-center",style:{"margin-top":"75px"}},"商品列表",-1),r=[a];function _(d,i,p,u,f,l){return s(),e("div",n,r)}const h=t(c,[["render",_]]);export{h as default};
