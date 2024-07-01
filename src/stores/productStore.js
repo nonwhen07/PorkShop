@@ -10,7 +10,7 @@ const status = statusStore()
 export default defineStore('productStore', {
   //data, methods, computed  vue    Component上下對應
   //stste, actions, getters  pinia  Store上下對應
-  stste: () => ({
+  state: () => ({
     products: [], //對應ProductsView-產品菜單
     pages: {} //產品菜單-頁碼
     // category: 'all'

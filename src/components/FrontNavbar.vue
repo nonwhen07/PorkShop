@@ -74,10 +74,12 @@ import axios from 'axios'
 import { mapState } from 'pinia'
 import cartStore from '@/stores/cartStore.js'
 
+import statusStore from '@/stores/statusStore.js'
+
 const { VITE_URL } = import.meta.env
+const status = statusStore()
 
 export default {
-  // props: ['isSignIn', 'logout'],
   props: ['title'],
   data() {
     return {
@@ -92,12 +94,8 @@ export default {
     logout() {
       const api = `${VITE_URL}/logout`
       axios.post(api).then(() => {
-        // emitter.emit('push-message', {
-        //   style: 'success',
-        //   title: '登出成功'
-        // })
-        //alert('登出成功');
-        //this.$router.push('/login');
+        status.pushMessage({ style: 'success', title: '登出成功' }) //從mitt改用pinia-store來退送吐司
+        this.$router.push('/login');
 
         //document.cookie = `shopToken=; expires=${new Date()}`;
         const emptytoken = '' //清空shopToken內的植

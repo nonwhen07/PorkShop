@@ -57,7 +57,7 @@
                 class="btn btn-outline-primary btn-sm"
                 :style="cartitem.qty === 1 ? 'display:none;' : ''"
                 :disabled="cartitem.qty === 1 || cartitem.id === cartQtyLoading"
-                @click="cartitem.qty--, cartChangeQty(cartitem, cartitem.qty)"
+                @click="cartitem.qty--, cartChangeQty(cartitem, cartitem.qty, '--')"
               >
                 -
               </button>
@@ -73,7 +73,7 @@
               <button
                 type="button"
                 class="btn btn-outline-primary btn-sm"
-                @click="cartitem.qty++, cartChangeQty(cartitem, cartitem.qty)"
+                @click="cartitem.qty++, cartChangeQty(cartitem, cartitem.qty, '++')"
                 :disabled="cartitem.id === cartQtyLoading"
               >
                 +
@@ -196,25 +196,19 @@
 <script>
 
 import axios from 'axios'
+import { mapActions, mapState } from 'pinia'
+
 import cartStore from '@/stores/cartStore.js'
 import statusStore from '@/stores/statusStore.js'
 
-import { mapActions, mapState } from 'pinia'
 const { VITE_URL, VITE_PATH } = import.meta.env
+const status = statusStore()
 
 export default {
-  //props: ['carts', 'delAllCart', 'delCart', 'cartChangeQty', 'getCarts'],
-  // props: ['delAllCart', 'delCart',],
   data() {
     return {
       userModal: null,
       editCarts: {},
-      status: {
-        checkProduct: '',
-        // addCartLoading: '', 改用cartStore-addCartLoadingI
-        // cartQtyLoading: '', 改用cartStore-cartQtyLoading
-        // delCart: ''
-      },
 
       form: {
         //購物車user
@@ -250,6 +244,7 @@ export default {
             //   style: 'success',
             //   title: '已送出訂單',
             // });
+            status.pushMessage({ style: 'success', title: '已送出訂單' })
           }
           else {
             // this.emitter.emit('push-message', {
@@ -257,6 +252,7 @@ export default {
             //   title: '送出訂單失敗',
             //   content: res.data.message.join('、'),
             // });
+            status.pushMessage({ danger: 'success', title: '送出訂單失敗', content: res.data.message.join('、'), })
           }
         })
     },

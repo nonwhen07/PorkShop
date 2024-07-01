@@ -75,8 +75,7 @@
       </ul>
 
       <!-- 分頁工具 pagination -->
-      <!-- <Pagination :pages="pages" :update-page="getProducts"></Pagination> -->
-      
+      <Pagination :pages="pages" :update-page="getProducts"></Pagination>
       
 
       <!-- 購物車列表 -->
@@ -93,7 +92,7 @@
 // import axios from 'axios'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
-// import Pagination from '@/components/PaginationTool.vue'
+import Pagination from '@/components/PaginationTool.vue'
 // import UserModal from '@/components/UserProductModal.vue'
 
 // import ProductNavbar from '@/components/user/ProductNavbar.vue'
@@ -201,7 +200,7 @@ export default {
   },
   components: {
     Loading,
-    // Pagination,
+    Pagination,
     // UserModal,
     // ProductNavbar,
     UserCart

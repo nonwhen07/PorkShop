@@ -1,16 +1,14 @@
 <template>
-  <div class="toast-container position-absolute pe-3 top-0 end-0">
+  <div class="toast-container position-fixed pe-3 top-10 end-0">
     <Toast v-for="(msg, key) in messages" :key="key" :msg="msg" />
   </div>
 </template>
   
 <script>
-import { storeToRefs } from 'pinia';
 
+import { storeToRefs } from 'pinia';
 import Toast from '@/components/Toast.vue';
 import statusStore from '@/stores/statusStore.js'
-
-
 
 export default {
   components: { 

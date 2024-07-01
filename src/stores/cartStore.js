@@ -8,12 +8,12 @@ const { VITE_URL, VITE_PATH } = import.meta.env
 const status = statusStore()
 
 export default defineStore('cartStore', {
-  stste: () => ({
+  //data, methods, computed  vue    Component上下對應
+  //state, actions, getters  pinia  Store上下對應
+  state: () => ({
     // isLoading: false, //改使用statusStore()來管理狀態
-
     carts: [], //購物車菜單
     cartslength: 0 //判定購物車筆數，給外部參考用
-
     // status: { //改使用statusStore()來管理狀態
     //   checkProduct: '',
     //   addCartLoading: '',
@@ -23,8 +23,7 @@ export default defineStore('cartStore', {
   }),
   actions: {
     getCarts() {
-      //this.isLoading = true //改使用statusStore()來管理狀態
-      status.isLoading = true
+      status.isLoading = true //改使用statusStore()來管理狀態
 
       const api = `${VITE_URL}/api/${VITE_PATH}/cart`
       axios
@@ -44,8 +43,7 @@ export default defineStore('cartStore', {
 
     addToCart(itemId, qty = 1) {
       status.isLoading = true
-      // this.addCartLoading = itemId //改使用statusStore()來管理狀態
-      status.addCartLoading = itemId
+      status.addCartLoading = itemId //改使用statusStore()來管理狀態
 
       let api = `${VITE_URL}/api/${VITE_PATH}/cart`
       let httpMethod = 'post'
@@ -55,8 +53,7 @@ export default defineStore('cartStore', {
       }
       axios[httpMethod](api, { data: cart })
         .then((res) => {
-          //this.addCartLoading = '' //改使用statusStore()來管理狀態
-          status.addCartLoading = ''
+          status.addCartLoading = '' //改使用statusStore()來管理狀態
           // this.$refs.uModal.closeModal()
           if (res.data.success) {
             this.getCarts()
@@ -65,7 +62,7 @@ export default defineStore('cartStore', {
             //   style: 'success',
             //   title: '加入購物車成功',
             // });
-            status.pushMessage({ style: 'success', title: '加入購物車成功' })
+            status.pushMessage({ style: 'success', title: '已加入購物車' })
           }
         })
         .catch(() => {
@@ -75,11 +72,9 @@ export default defineStore('cartStore', {
         })
     },
 
-    cartChangeQty(orderItem, qty = 1) {
+    cartChangeQty(orderItem, qty = 1, change = '++') {
       status.isLoading = true
-
-      //this.cartQtyLoading = orderItem.id //根據訂頒編號來disabled //改使用statusStore()來管理狀態
-      status.cartQtyLoading = orderItem.id
+      status.cartQtyLoading = orderItem.id //根據訂頒編號來disabled //改使用statusStore()來管理狀態
 
       let api = `${VITE_URL}/api/${VITE_PATH}/cart/${orderItem.id}`
       let httpMethod = 'put'
@@ -89,8 +84,7 @@ export default defineStore('cartStore', {
       }
       axios[httpMethod](api, { data: order })
         .then((res) => {
-          //this.cartQtyLoading = '' //改使用statusStore()來管理狀態
-          status.cartQtyLoading = ''
+          status.cartQtyLoading = '' //改使用statusStore()來管理狀態
           // this.$refs.uModal.closeModal()
 
           if (res.data.success) {
@@ -100,7 +94,12 @@ export default defineStore('cartStore', {
             //   style: 'success',
             //   title: '加入購物車成功',
             // });
-            status.pushMessage({ style: 'success', title: '加入購物車成功' })
+            // status.pushMessage({ style: 'success', title: '已調整商品數量' })
+            if (change === '++') {
+              status.pushMessage({ style: 'success', title: '已增加數量' })
+            } else {
+              status.pushMessage({ style: 'success', title: '已刪減數量' })
+            }
           }
         })
         .catch((err) => {
@@ -115,24 +114,20 @@ export default defineStore('cartStore', {
             content: err.data.message.join('、')
           })
 
-          //this.cartQtyLoading = '' //改使用statusStore()來管理狀態
-          status.cartQtyLoading = ''
+          status.cartQtyLoading = '' //改使用statusStore()來管理狀態
           status.isLoading = false
         })
     },
 
     delCartItem(itemID) {
       status.isLoading = true
-
-      //this.delCart = itemID //改使用statusStore()來管理狀態
-      status.delCart = itemID
+      status.delCart = itemID //改使用statusStore()來管理狀態
 
       let api = `${VITE_URL}/api/${VITE_PATH}/cart/${itemID}` //預設新增，再來判斷isNew
       let httpMethod = 'delete'
       axios[httpMethod](api)
         .then((res) => {
-          // this.delCart = '' //改使用statusStore()來管理狀態
-          status.delCart = ''
+          status.delCart = '' //改使用statusStore()來管理狀態
           if (res.data.success) {
             this.getCarts()
 
@@ -140,7 +135,7 @@ export default defineStore('cartStore', {
             //   style: 'success',
             //   title: '刪除品項成功',
             // });
-            status.pushMessage({ style: 'success', title: '刪除品項成功' })
+            status.pushMessage({ style: 'success', title: '已刪除品項' })
           }
         })
         .catch(() => {
@@ -150,16 +145,13 @@ export default defineStore('cartStore', {
 
     delAllCart() {
       status.isLoading = true
-
-      //this.delCart = 'delAll' //改使用statusStore()來管理狀態
-      status.delCart = 'delAll'
+      status.delCart = 'delAll' //改使用statusStore()來管理狀態
 
       let api = `${VITE_URL}/api/${VITE_PATH}/carts` //預設新增，再來判斷isNew
       let httpMethod = 'delete'
       axios[httpMethod](api)
         .then((res) => {
-          //this.delCart = '' //改使用statusStore()來管理狀態
-          status.delCart = ''
+          status.delCart = '' //改使用statusStore()來管理狀態
 
           if (res.data.success) {
             this.getCarts()
