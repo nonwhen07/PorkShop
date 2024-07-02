@@ -1,0 +1,1 @@
+import{_ as t,c as e,o,a as s}from"./index-BL61C-bO.js";const c={data(){return{}},mounted(){}},a={class:"about"},n=s("h2",{class:"d-flex justify-content-center",style:{"margin-top":"75px"}},"關於我們",-1),r=[n];function _(d,i,p,u,f,l){return o(),e("div",a,r)}const h=t(c,[["render",_]]);export{h as default};
