@@ -240,18 +240,9 @@ export default {
 
           if (res.data.success) {
             this.getCarts()
-            // this.emitter.emit('push-message', {
-            //   style: 'success',
-            //   title: '已送出訂單',
-            // });
             status.pushMessage({ style: 'success', title: '已送出訂單' })
           }
           else {
-            // this.emitter.emit('push-message', {
-            //   style: 'danger',
-            //   title: '送出訂單失敗',
-            //   content: res.data.message.join('、'),
-            // });
             status.pushMessage({ danger: 'success', title: '送出訂單失敗', content: res.data.message.join('、'), })
           }
         })

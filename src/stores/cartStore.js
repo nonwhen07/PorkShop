@@ -8,18 +8,11 @@ const { VITE_URL, VITE_PATH } = import.meta.env
 const status = statusStore()
 
 export default defineStore('cartStore', {
-  //data, methods, computed  vue    Component上下對應
-  //state, actions, getters  pinia  Store上下對應
+  //data,  methods, computed  vue    Component上下對應
+  //state, actions, getters   pinia  Store上下對應
   state: () => ({
-    // isLoading: false, //改使用statusStore()來管理狀態
     carts: [], //購物車菜單
     cartslength: 0 //判定購物車筆數，給外部參考用
-    // status: { //改使用statusStore()來管理狀態
-    //   checkProduct: '',
-    //   addCartLoading: '',
-    //   cartQtyLoading: '',
-    //   delCart: ''
-    // }
   }),
   actions: {
     getCarts() {
@@ -57,16 +50,10 @@ export default defineStore('cartStore', {
           // this.$refs.uModal.closeModal()
           if (res.data.success) {
             this.getCarts()
-
-            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
-            //   style: 'success',
-            //   title: '加入購物車成功',
-            // });
             status.pushMessage({ style: 'success', title: '已加入購物車' })
           }
         })
         .catch(() => {
-          //this.addCartLoading = '' //改使用statusStore()來管理狀態
           status.addCartLoading = ''
           status.isLoading = false
         })
@@ -89,12 +76,6 @@ export default defineStore('cartStore', {
 
           if (res.data.success) {
             this.getCarts()
-
-            // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
-            //   style: 'success',
-            //   title: '加入購物車成功',
-            // });
-            // status.pushMessage({ style: 'success', title: '已調整商品數量' })
             if (change === '++') {
               status.pushMessage({ style: 'success', title: '已增加數量' })
             } else {
@@ -103,14 +84,9 @@ export default defineStore('cartStore', {
           }
         })
         .catch((err) => {
-          // this.emitter.emit('push-message', { //改使用statusStore-pushMessage 來處理Toastmessage
-          //     style: 'danger',
-          //     title: '加入失敗',
-          //     content: err.data.message.join('、'),
-          //   });
           status.pushMessage({
             style: 'danger',
-            title: '加入失敗',
+            title: '數量調整失敗',
             content: err.data.message.join('、')
           })
 
