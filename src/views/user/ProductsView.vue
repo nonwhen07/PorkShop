@@ -58,7 +58,7 @@
       </ul>
 
       <!-- 分頁工具 pagination -->
-      <Pagination :pages="pages" :update-page="filterProducts"></Pagination>
+      <!-- <Pagination :pages="pages" :update-page="getProducts()"></Pagination> -->
 
       <!-- 購物車列表 -->
       <UserCart v-if="cartslength > 0"></UserCart>
@@ -73,7 +73,7 @@
 // import axios from 'axios'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/css/index.css'
-import Pagination from '@/components/PaginationTool.vue'
+//import Pagination from '@/components/PaginationTool.vue'
 // import UserModal from '@/components/UserProductModal.vue'
 
 import UserCart from '@/components/user/UserCart.vue'
@@ -182,7 +182,7 @@ export default {
   },
   components: {
     Loading,
-    Pagination,
+    // Pagination,
     // UserModal,
     UserCart
   },
